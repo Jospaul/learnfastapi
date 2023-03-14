@@ -32,3 +32,12 @@ def get_db():
 @router.get("/", response_class=HTMLResponse)
 async def read_all_by_user(request: Request):
     return templates.TemplateResponse("home.html",{"request": request})
+
+
+@router.get("/add-todo", response_class=HTMLResponse)
+async def add_new_todo(request: Request):
+    return templates.TemplateResponse("add-todo.html",{"request": request})
+
+@router.get("/edit-todo/{todo_id}", response_class=HTMLResponse)
+async def edit_todo(request:Request):
+    return templates.TemplateResponse("edit-todo.html", {"request": request})

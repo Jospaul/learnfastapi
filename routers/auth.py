@@ -1,7 +1,8 @@
+from http.client import HTTPResponse
 import sys
 sys.path.append("..")
 
-from fastapi import Depends,HTTPException, status, APIRouter
+from fastapi import Depends,HTTPException, status, APIRouter, Request
 from pydantic import BaseModel
 from typing import Optional
 import models
@@ -11,6 +12,8 @@ from database import SessionLocal, engine
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 SECRET_KEY = "am9zcGF1bGlzY29kaW5ndG9sZWFybmZhc3RhcGk="
 ALGORITHM = "HS256"
@@ -27,6 +30,8 @@ class CreateUser(BaseModel):
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 models.Base.metadata.create_all(bind=engine)
+
+templates = Jinja2Templates(directory="templates")
 
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -111,6 +116,13 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
                                  expires_delta=token_expires)
     return {"token": token}
 
+@router.get("/", response_class=HTTPResponse)
+async def authentication_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+@router.get("/register", response_class=HTTPResponse)
+async def register(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request}) 
 
 #Exceptions
 def get_user_exception():
