@@ -64,4 +64,4 @@ async def change_password(request: Request, username: str = Form(...),
         return templates.TemplateResponse("passwordchange.html", {"request": request, "msg": msg})
 
     msg = "Password Changed Successfully"
-    return templates.TemplateResponse("passwordchange.html", {"request": request, "msg": msg})
+    return templates.TemplateResponse("passwordchange.html", {"request": request, "msg": msg, "user": user})
