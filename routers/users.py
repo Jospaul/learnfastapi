@@ -17,7 +17,7 @@ templates = Jinja2Templates(directory="templates")
 router = APIRouter(
     prefix="/users",
     tags=["users"],
-    responses={401: {"description": "Not Authorized"}}
+    responses={404: {"description": "Not Found"}}
 )
 
 models.Base.metadata.create_all(bind=engine)
