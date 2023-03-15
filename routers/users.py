@@ -3,25 +3,16 @@ sys.path.append("..")
 
 from starlette import status
 from starlette.responses import RedirectResponse
-from fastapi import APIRouter, Depends, HTTPException, Request, Form
+from fastapi import APIRouter, Depends, Request, Form
 from database import SessionLocal, engine
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
 import models
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from .auth import get_current_user, get_user_exception, get_password_hash, token_exception, verify_password, authenticate_user
+from .auth import get_current_user, get_password_hash, verify_password
 
 
 templates = Jinja2Templates(directory="templates")
-
-class UpdateUser(BaseModel):
-    username: str
-    password: str
-    new_password: str
-
-class UpdatePhoneNumber(BaseModel):
-    phone_number: str
 
 router = APIRouter(
     prefix="/users",
