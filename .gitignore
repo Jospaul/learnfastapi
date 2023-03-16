@@ -1,5 +1,4 @@
 __pycache__
 routers/__pycache__
-alembic/__pycache__
-alembic/versions/__pycache__
 learnfastapienv
+alembic/__pycache__
